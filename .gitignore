@@ -1,0 +1,24 @@
+# Compilação de C
+*.o
+*.out
+*.exe
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configurações de IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Arquivos binários e backups
+*.bak
+*.bin
+
+# Ignorar o arquivo de ranking
+ranking.txt
