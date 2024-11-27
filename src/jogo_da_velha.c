@@ -1,5 +1,68 @@
-<<<<<<< HEAD
-// Loop principal do jogo
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definindo a estrutura de dados para armazenar as informacoes de cada jogador
+typedef struct {
+    char nome[50];   // Nome do jogador
+    int vitorias;    // Numero de vitorias do jogador
+} Jogador;
+
+// Funcao que salva o ranking dos jogadores em um arquivo
+void salvarRanking(Jogador jogador1, Jogador jogador2) {
+    FILE *arquivo = fopen("ranking.txt", "w");  // Abre o arquivo para escrita
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para salvar o ranking.\n");
+        return;
+    }
+    
+    // Escreve os dados dos jogadores no arquivo
+    fprintf(arquivo, "%s: %d vitorias\n", jogador1.nome, jogador1.vitorias);
+    fprintf(arquivo, "%s: %d vitorias\n", jogador2.nome, jogador2.vitorias);
+
+    fclose(arquivo);  // Fecha o arquivo apos escrever
+}
+
+// Funcao que carrega o ranking dos jogadores a partir do arquivo
+void carregarRanking(Jogador *jogador1, Jogador *jogador2) {
+    FILE *arquivo = fopen("ranking.txt", "r");  // Abre o arquivo para leitura
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo de ranking.\n");
+        return;
+    }
+
+    // Le os dados dos jogadores e os armazena nas variaveis passadas por referencia
+    fscanf(arquivo, "%s: %d vitorias\n", jogador1->nome, &jogador1->vitorias);
+    fscanf(arquivo, "%s: %d vitorias\n", jogador2->nome, &jogador2->vitorias);
+
+    fclose(arquivo);  // Fecha o arquivo apos a leitura
+}
+
+// Funcao para criar o tabuleiro de jogo da velha dinamicamente
+char** criarTabuleiro() {
+    char** tabuleiro = malloc(3 * sizeof(char*));  // Aloca memoria para 3 linhas
+    for (int i = 0; i < 3; i++) {
+        tabuleiro[i] = malloc(3 * sizeof(char));  // Aloca memoria para 3 colunas em cada linha
+        for (int j = 0; j < 3; j++) {
+            tabuleiro[i][j] = ' ';  // Inicializa o tabuleiro com espacos vazios
+        }
+    }
+    return tabuleiro;  // Retorna o tabuleiro criado
+}
+
+// Funcao para liberar a memoria do tabuleiro dinamico
+void liberarTabuleiro(char** tabuleiro) {
+    for (int i = 0; i < 3; i++) {
+        free(tabuleiro[i]);  // Libera cada linha do tabuleiro
+    }
+    free(tabuleiro);  // Libera a memoria do proprio tabuleiro
+}
+
+// Funcao principal do jogo, onde a logica de execucao acontece
+void jogar(Jogador *jogador1, Jogador *jogador2) {
+    int l, c, linha, coluna, jogadorAtual = 1, ganhou = 0, jogadas = 0;
+    char** tabuleiro = criarTabuleiro();  // Cria o tabuleiro dinamicamente
+
+    // Loop principal do jogo
     do {
         // Exibe o tabuleiro atual
         printf("\n\t 0   1   2\n");
@@ -61,47 +124,25 @@
     // Libera a memoria do tabuleiro
     liberarTabuleiro(tabuleiro);
 }
-=======
-<<<<<<< HEAD
-#include <stdio.h>
-#include <stdlib.h>
 
-// Definindo a estrutura de dados para armazenar as informacoes de cada jogador
-typedef struct {
-    char nome[50];   // Nome do jogador
-    int vitorias;    // Numero de vitorias do jogador
-} Jogador;
-
-// Funcao que salva o ranking dos jogadores em um arquivo
-void salvarRanking(Jogador jogador1, Jogador jogador2) {
-    FILE *arquivo = fopen("ranking.txt", "w");  // Abre o arquivo para escrita
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para salvar o ranking.\n");
-        return;
-    }
-    
-    // Escreve os dados dos jogadores no arquivo
-    fprintf(arquivo, "%s: %d vitorias\n", jogador1.nome, jogador1.vitorias);
-    fprintf(arquivo, "%s: %d vitorias\n", jogador2.nome, jogador2.vitorias);
-
-    fclose(arquivo);  // Fecha o arquivo apos escrever
+// Funcao que exibe o ranking dos jogadores
+void exibirRanking(Jogador jogador1, Jogador jogador2) {
+    printf("\nRanking:\n");
+    printf("%s: %d vitorias\n", jogador1.nome, jogador1.vitorias);
+    printf("%s: %d vitorias\n", jogador2.nome, jogador2.vitorias);
 }
 
-// Funcao que carrega o ranking dos jogadores a partir do arquivo
-void carregarRanking(Jogador *jogador1, Jogador *jogador2) {
-    FILE *arquivo = fopen("ranking.txt", "r");  // Abre o arquivo para leitura
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo de ranking.\n");
-        return;
-    }
-
-    // Le os dados dos jogadores e os armazena nas variaveis passadas por referencia
-    fscanf(arquivo, "%s: %d vitorias\n", jogador1->nome, &jogador1->vitorias);
-    fscanf(arquivo, "%s: %d vitorias\n", jogador2->nome, &jogador2->vitorias);
-
-    fclose(arquivo);  // Fecha o arquivo apos a leitura
+// Funcao que exibe os creditos do jogo
+void exibirCreditos() {
+    printf("\nJogo da Velha\n");
+    printf("Desenvolvido pelos alunos: \n");
+    printf("Jose Henrique\n");
+    printf("Jose Edgar\n");
+    printf("Rafael Magno\n");
+    printf("Levi Adler\n");
+    printf("Gabriel Lucas \n");
 }
-=======
+
 // Funcao principal que controla o menu e chama as outras funcoes
 int main() {
     Jogador jogador1 = {"Jogador 1", 0};  // Inicializa o jogador 1
@@ -142,32 +183,6 @@ int main() {
                 printf("\nJogo encerrado\n");  // Encerra o jogo
                 break;
         }
-    } while (opcao != 4);  // Continua exibindo o menu até a opção 4 ser escolhida
+    } while (opcao != 4);  // Continua exibindo o menu atÃ© a opÃ§Ã£o 4 ser escolhida
     return 0;
 }
->>>>>>> c5a71da7aa76f7c7b86cd736df28160f833b6897
-// Funcao para criar o tabuleiro de jogo da velha dinamicamente
-char** criarTabuleiro() {
-    char** tabuleiro = malloc(3 * sizeof(char*));  // Aloca memoria para 3 linhas
-    for (int i = 0; i < 3; i++) {
-        tabuleiro[i] = malloc(3 * sizeof(char));  // Aloca memoria para 3 colunas em cada linha
-        for (int j = 0; j < 3; j++) {
-            tabuleiro[i][j] = ' ';  // Inicializa o tabuleiro com espacos vazios
-        }
-    }
-    return tabuleiro;  // Retorna o tabuleiro criado
-}
-
-// Funcao para liberar a memoria do tabuleiro dinamico
-void liberarTabuleiro(char** tabuleiro) {
-    for (int i = 0; i < 3; i++) {
-        free(tabuleiro[i]);  // Libera cada linha do tabuleiro
-    }
-    free(tabuleiro);  // Libera a memoria do proprio tabuleiro
-}
-
-// Funcao principal do jogo, onde a logica de execucao acontece
-void jogar(Jogador *jogador1, Jogador *jogador2) {
-    int l, c, linha, coluna, jogadorAtual = 1, ganhou = 0, jogadas = 0;
-    char** tabuleiro = criarTabuleiro();  // Cria o tabuleiro dinamicamente
->>>>>>> 71561156511083b97cf8e81d69f754089f985190
