@@ -82,3 +82,27 @@ int main() {
     return 0;
 }
 >>>>>>> c5a71da7aa76f7c7b86cd736df28160f833b6897
+// Funcao para criar o tabuleiro de jogo da velha dinamicamente
+char** criarTabuleiro() {
+    char** tabuleiro = malloc(3 * sizeof(char*));  // Aloca memoria para 3 linhas
+    for (int i = 0; i < 3; i++) {
+        tabuleiro[i] = malloc(3 * sizeof(char));  // Aloca memoria para 3 colunas em cada linha
+        for (int j = 0; j < 3; j++) {
+            tabuleiro[i][j] = ' ';  // Inicializa o tabuleiro com espacos vazios
+        }
+    }
+    return tabuleiro;  // Retorna o tabuleiro criado
+}
+
+// Funcao para liberar a memoria do tabuleiro dinamico
+void liberarTabuleiro(char** tabuleiro) {
+    for (int i = 0; i < 3; i++) {
+        free(tabuleiro[i]);  // Libera cada linha do tabuleiro
+    }
+    free(tabuleiro);  // Libera a memoria do proprio tabuleiro
+}
+
+// Funcao principal do jogo, onde a logica de execucao acontece
+void jogar(Jogador *jogador1, Jogador *jogador2) {
+    int l, c, linha, coluna, jogadorAtual = 1, ganhou = 0, jogadas = 0;
+    char** tabuleiro = criarTabuleiro();  // Cria o tabuleiro dinamicamente
